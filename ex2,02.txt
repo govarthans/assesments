@@ -1,0 +1,127 @@
+Q1
+
+def GCD(a,b):
+    if b==0:
+        return a 
+    else:
+        return GCD(b,a%b)
+a=60
+b=48
+print(GCD(a,b))
+
+
+
+Q2
+
+def power(a,b):
+    while a % b == 0:
+        if a == b: 
+	    return True
+        a /= b
+    return False
+
+
+
+a=int(input())
+b=int(input())
+print(power(a,b))
+
+
+q3
+
+def fact(a):
+    if a==1:
+        return a 
+    elif a<1:
+        return ("negative value")
+    else:
+        fac=a+fact(a-1)
+        return fac 
+    
+
+
+a=int(input())
+
+print(fact(a))
+
+
+Q4
+ 
+
+Q5
+
+s="a2b5c"
+a=[]
+b=0
+for i in s:
+    if i.isdigit():
+        c=int(i)
+        b=b+c
+        
+print(b)
+
+Q6
+
+def li(l):
+    for i in l:
+        if i%2==0:
+            return i
+    else:
+        return "no even "
+       
+l=[1,9,3,56,3]   
+print(li(l))
+
+
+
+
+Q7
+
+def palindrom(s):
+    a=s.lower()
+    b=""
+    for i in a:
+        if i.isalpha():
+            b=b+i
+    c=b[::-1]
+    if c==b:
+        print("palindrom")
+    else:
+        print("not a plindrom")
+    
+    
+s="mada $52 m@"
+palindrom(s)
+    
+
+
+
+q8
+
+print(eval('1 + 2 * 3'))
+import math
+
+
+def ev(a):
+    print(eval('math.sqrt(a)'))
+    print(eval('type(math.pi)'))
+a=5
+ev(a)
+
+Q9
+
+def fun(a,b):
+   return  (b + a/b) / 2
+
+a=5.0
+b=6.0
+print(fun(a,b))
+
+
+
+
+
+
+
+
+
