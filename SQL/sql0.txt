@@ -1,0 +1,303 @@
+ 1.
+
+
+sql> select name from employee order by salary desc limit 3;
++---------------+
+| name          |
++---------------+
+| TARA CUMMINGS |
+| PAUL VINCENT  |
+| ADAM WAYNE    |
++---------------+
+3 rows in set (0.00 sec)
+
+mysql> select name from (select name,dense_rank() over(order by salary desc) as max from employee e)as salary where max between 1 and 3;
++---------------+
+| name          |
++---------------+
+| TARA CUMMINGS |
+| PAUL VINCENT  |
+| ADAM WAYNE    |
++---------------+
+3 rows in set (0.00 sec)
+
+mysql> select name from (select name,rank() over(order by salary desc) as max from employee e)as salary where max between 1 and 3;
++---------------+
+| name          |
++---------------+
+| TARA CUMMINGS |
+| PAUL VINCENT  |
+| ADAM WAYNE    |
++---------------+
+3 rows in set (0.00 sec)
+
+mysql> select name from (select name,row_number() over(order by salary desc) as max from employee e)as salary where max between 1 and 3;
++---------------+
+| name          |
++---------------+
+| TARA CUMMINGS |
+| PAUL VINCENT  |
+| ADAM WAYNE    |
++---------------+
+
+2..
+select name from employee order by salary limit 1;
++-------------+
+| name        |
++-------------+
+| JOHN HELLEN |
++-------------+
+1 row in set (0.00 sec)
+
+
+
+mysql> select name ,salary from (select name,salary,dense_rank() over (order by salary) as s from employee)as min where s=1;
++-------------+--------+
+| name        | salary |
++-------------+--------+
+| JOHN HELLEN |  15380 |
++-------------+--------+
+1 row in set (0.00 sec
+
+
+
+
+
+
+3..
+
+mysql> select name from employee where manager_id is null;
+Empty set (0.00 sec)
+
+
+
+
+4..
+
+mysql> select e_id,name  from employee e where salary=(select min(salary) from employee e join dept d on e.dep_id=d.dep_id  where dep_manager=name);
++------+--------------+
+| e_id | name         |
++------+--------------+
+| A187 | ROBERT SWIFT |
++------+--------------+
+1 row in set (0.00 sec)
+
+
+
+5..
+mysql> select e_id, name from employee,dept where name=dep_manager;
++------+-----------------+
+| e_id | name            |
++------+-----------------+
+| A120 | TIM ARCHER      |
+| A165 | NATASHA STEVENS |
+| A187 | ADAM JUSTIN     |
++------+-----------------+
+3 rows in set (0.00 sec)
+
+
+
+
+
+6..
+mysql> select COUNT(name)as emp_count,dep_name from employee e JOIN dept d on e.dep_id=d.dep_id WHERE dep_name="COMMUNICATIONS";
++-----------+----------------+
+| emp_count | dep_name       |
++-----------+----------------+
+|         6 | COMMUNICATIONS |
++-----------+----------------+
+1 row in set (0.00 sec)
+
+
+7..
+
+mysql> select name from employee e JOIN dept d on e.dep_id=d.dep_id WHERE dep_name="FINANCE" order by salary desc limit 1;
++------------+
+| name       |
++------------+
+| ADAM WAYNE |
++------------+
+1 row in set (0.00 sec)
+
+
+
+mysql> select name,salary from ( select name,salary,dense_rank() over (order by salary desc)as t from employee e join dept d on e.dep_id=d.dep_id where dep_name="FINANCE" )as a where t=1;
++------------+--------+
+| name       | salary |
++------------+--------+
+| ADAM WAYNE |  94324 |
++------------+--------+
+1 row in set (0.00 sec) 
+
+
+8..
+
+mysql> select name from employee e JOIN dept d on e.dep_id=d.dep_id WHERE dep_name="PRODUCT" order by salary  limit 1;
++-------------+
+| name        |
++-------------+
+| NICK MARTIN |
++-------------+
+1 row in set (0.00 sec)
+
+
+
+mysql> select name,salary from ( select name,salary,dense_rank() over (order by salary )as t from employee e join dept d on e.dep_id=d.dep_id where dep_name="PRODUCT" )as a where t=1;
++-------------+--------+
+| name        | salary |
++-------------+--------+
+| NICK MARTIN |  50174 |
++-------------+--------+
+1 row in set (0.00 sec)
+
+
+9..
+
+mysql> select count(*), salary from (select name , salary from employee e join dept d on e.dep_id = d.dep_id where dep_name = "HEALTH" order by salary desc limit 1) as a;
++----------+--------+
+| count(*) | salary |
++----------+--------+
+|        1 |  94791 |
++----------+--------+
+1 row in set (0.00 sec)
+
+10..
+
+mysql> select name,e_id,salary FROM EMPLOYEE E join DEPT D on e.dep_id=d.dep_id where dep_manager="NATASHA STEVENS" and name != "NATASHA STEVENS";
++----------------+------+--------+
+| name           | e_id | salary |
++----------------+------+--------+
+| ADAM WAYNE     | A128 |  94324 |
+| JOSEPH ANGELIN | A129 |  44280 |
++----------------+------+--------+
+2 rows in set (0.00 sec)
+
+11..
+
+mysql> select count(e.e_id) as emp_count,name,dep_name,dep_manager from employee e JOIN dept d on e.dep_id=d.dep_id group by e.e_id having dep_name="HEALTH";
++-----------+----------------+----------+-------------+
+| emp_count | name           | dep_name | dep_manager |
++-----------+----------------+----------+-------------+
+|         1 | MARTIN TREDEAU | HEALTH   | TIM ARCHER  |
+|         1 | PAUL VINCENT   | HEALTH   | TIM ARCHER  |
+|         1 | TIM ARCHER     | HEALTH   | TIM ARCHER  |
+|         1 | BRED MICHAEL   | HEALTH   | TIM ARCHER  |
+|         1 | EDWARD CANE    | HEALTH   | TIM ARCHER  |
+|         1 | JOHN HELLEN    | HEALTH   | TIM ARCHER  |
++-----------+----------------+----------+-------------+
+6 rows in set (0.00 sec)
+
+
+
+12..
+
+mysql> select e.e_id,d.dep_id,manager_id from employee e JOIN dept d on e.dep_id=d.dep_id WHERE dep_name="COMMUNICATIONS";
++------+--------+------------+
+| e_id | dep_id | manager_id |
++------+--------+------------+
+| A116 | D02    | A187       |
+| A198 | D02    | A187       |
+| A187 | D02    | A298       |
+| A121 | D02    | A187       |
+| A194 | D02    | A187       |
+| A133 | D02    | A187       |
++------+--------+------------+
+6 rows in set (0.00 sec)
+
+
+13..
+
+mysql> select avg(salary) as avg_salary ,d.dep_id,dep_name from employee e JOIN dept d on e.dep_id=d.dep_id group  by dep_id;
++------------+--------+----------------+
+| avg_salary | dep_id | dep_name       |
++------------+--------+----------------+
+| 54527.6667 | D01    | HEALTH         |
+| 48271.3333 | D02    | COMMUNICATIONS |
+| 58517.5000 | D03    | PRODUCT        |
+| 51913.3333 | D04    | INSURANCE      |
+| 56660.3333 | D05    | FINANCE        |
++------------+--------+----------------+
+5 rows in set (0.00 sec)
+
+14..
+
+
+mysql> select sum(salary) as toatal from employee e JOIN dept d on e.dep_id=d.dep_id WHERE dep_name="FINANCE";
++--------+
+| toatal |
++--------+
+| 169981 |
++--------+
+1 row in set (0.00 sec)
+
+15..
+
+
+mysql> select d.dep_id,dep_name,dep_manager,sum(salary) as min_salary from employee e JOIN dept d on e.dep_id=d.dep_id group by dep_name order by min_salary limit 1;
++--------+----------+-------------+------------+
+| dep_id | dep_name | dep_manager | min_salary |
++--------+----------+-------------+------------+
+| D03    | PRODUCT  | BRUCE WILLS |     117035 |
++--------+----------+-------------+------------+
+1 row in set (0.00 sec)
+
+
+
+16..
+
+mysql> select count(e_id) from employee group  by dep_id;
++-------------+
+| count(e_id) |
++-------------+
+|           6 |
+|           6 |
+|           2 |
+|           3 |
+|           3 |
++-------------+
+5 rows in set (0.00 sec)
+
+17..
+
+mysql> select count(e_id) from employee e join dept d on e.dep_id=d.dep_id  where  salary<10000 group by d.dep_id;
+Empty set (0.01 sec)
+
+18.. 
+
+mysql> select count(e_id) as emp_count from employee where dep_id="D04";
++-----------+
+| emp_count |
++-----------+
+|         3 |
++-----------+
+1 row in set (0.00 sec)
+
+19..
+
+
+select d.* ,count(e. e_id) as c from employee e join dept d on e.dep_id = d.dep_id group by dep_name order by c desc limit 1;
++--------+----------+-------------+---+
+| dep_id | dep_name | dep_manager | c |
++--------+----------+-------------+---+
+| D01    | HEALTH   | TIM ARCHER  | 6 |
++--------+----------+-------------+---+
+1 row in set (0.00 sec)
+
+
+20..
+
+mysql> select name from employee e join dept d on e.dep_id=d.dep_id where dep_manager="TIM ARCHER";
++----------------+
+| name           |
++----------------+
+| MARTIN TREDEAU |
+| PAUL VINCENT   |
+| TIM ARCHER     |
+| BRED MICHAEL   |
+| EDWARD CANE    |
+| JOHN HELLEN    |
++----------------+
+6 rows in set (0.00 sec)
+
+
+
