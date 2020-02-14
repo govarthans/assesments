@@ -1,0 +1,91 @@
+1..
+
+import re
+s='a12143bc@gamil.com'
+x=re.findall("[\w]{2,50}@[gmail|yahoo|accenture]{2,10}\.[\w]{2,3}",s)
+print(x)
+
+2..
+
+
+def pal(st):
+    s=st.replace(" ","")
+    print(s)
+    c=len(s)
+    #print(c)
+    b=''
+
+    for i in range(c-1,-1,-1):
+        b=b+(s[i])
+
+    #print(b)
+    if b==s:
+        print("given string is palindrom")
+    else:
+        print("given string is not a palindrom")
+st="race car"
+pal(st)
+
+
+3..
+
+import re
+s="abc@gmail.com"
+x=re.findall("\.^{2}",s)
+print(x)
+
+
+4..
+
+
+s=['abcs','cdhs','lkas','ascbs']
+c=[]
+dic={}
+op=[]
+for i in s:
+    c.append(i[2])
+    dic[i]=i[2]
+
+print(c)
+print(dic)
+
+c.sort()
+print(c)
+
+for k in c:
+    for i,j in dic.items():
+        if k==j:
+            if i not in op:
+                op.append(i)
+print(op)
+
+5....
+
+
+def star(n):
+    for i in range(0, n):
+        for j in range(0, n):
+            print(end=" ")
+
+        for j in range(0, i + 1):
+            print("* ", end="")
+
+        print("\r")
+        n=n-1
+n=5
+star(n)
+
+
+6...
+
+from functools import reduce
+d={'a':1,'e':2,'i':3,'o':4,'u':5}
+s="anto"
+l=[]
+for t in s:
+    for i,j in d.items():
+        if i==t:
+            l.append(j)
+#print(l)
+x=reduce(lambda x,y:x+y,l)
+print(x)

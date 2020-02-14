@@ -1,0 +1,76 @@
+from datetime import datetime
+
+country=['UK','USA','INDIA','MEXICO','AUSTRALIA']
+time_zone=['GMT','EST','IST','CST','AEDT']
+time=['GMT-5.5','EST-10.5','IST+0.0','CST-11.5','AEDT+5.5']
+currency=['Pound','USD','INR','USD','AUD']
+language=['English','English','Hindi','Spanish','English']
+currency_rate=['92.72','72.32','1','71.32','47.73']
+
+con=input("enter the country:")
+amount=int(input("Enter the amount:"))
+
+c=''
+
+
+a=zip(country,time)
+b=dict(a)
+print(b)
+
+for i,j in  b.items():
+    if i==con:
+        c+=j
+d=c.split('T')
+
+now=datetime.now()
+
+current_time = now.strftime("%H:%M")
+print(current_time)
+
+cus=(d[1])
+
+cu=0
+print((cu))
+print((cus))
+print(cus-cu)
+
+def current_time(a,b):
+    if a[0]=="-":
+        d=a.replace("-","")
+        dd=float(d)
+        
+    zo=b-(timedelta(0,0,0,0,a))
+
+   # return ("current time:",a-b)
+
+a=cus
+b=current_time
+print(current_time(a,b))
+
+
+lan=zip(country,language)
+lang=dict(lan)
+print(lang)
+d=''
+for i,j in  lang.items():
+    if i==con:
+        d+=j
+print("Language:",d)
+
+cur=zip(country,currency_rate)
+curren=dict(cur)
+print(lang)
+value=''
+for i,j in  curren.items():
+    if i==con:
+        value+=j
+print("currency value:",value)
+
+
+def equi(a,b):
+    c=a/b
+    return ("Equivalent Currency value",c)
+
+a=float(amount)
+b=float(value)
+print(equi(a,b))

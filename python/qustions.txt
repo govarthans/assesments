@@ -1,0 +1,64 @@
+1..
+
+a=lambda a:a*3
+print(a(2))
+
+
+2..
+#different length of list is getting output
+a=[1,2,3,4,5,6,7]
+b=[7,5,4,3,6,3,2,3]
+x=list(map(lambda a,b:a+b,a,b))
+print(x)
+
+3..
+
+#inbuilt function in lambda
+
+x=list(map(pow,[1,2],[1,2]))
+print(x)
+
+o/p:[1,4]
+
+
+4..
+# dict in lambda
+
+a=[10,20,30,40]
+b=[1,2,3,4,]
+c=zip(a,b)
+d=dict(c)
+print(d.keys())
+#x=list(map(lambda a:d.values()+d.keys(),d))
+x=list(map(lambda a:d[a]+d[a],d))
+print(x)
+
+0/p:[2, 4, 6, 8]
+
+
+5..
+#if else in lambda function
+from functools import reduce
+a = [10, 20, 30, 40, 50]
+b = [1, 2, 3, 4, 5]
+# c=zip(a,b)
+x = reduce(lambda x, y : x+y if x == 0 else "no value", a)
+print(x)
+
+o/p:no value
+
+6..
+#accumulator
+import itertools
+
+def add(v,y):
+    c=v+y
+    return c
+
+l1=[1,2,3,4,5,6,7]
+x=itertools.accumulate(l1,add)
+a=list(x)
+print(a)
+
+o/p:[1, 3, 6, 10, 15, 21, 28]
+
